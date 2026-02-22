@@ -1,0 +1,77 @@
+@{
+    var id = (int)ViewData["ReservationId"]!;
+}
+
+<div class="text-center py-5">
+    <div class="mb-4">
+        <div style="font-size: 4rem; color: #198754; margin-bottom: 20px;">
+            <i class="fas fa-check-circle animate__animated animate__bounce"></i>
+        </div>
+    </div>
+
+    <div class="details-container mx-auto" style="max-width: 500px;">
+        <h2 class="text-success mb-2">
+            <i class="fas fa-thumbs-up"></i> Réservation Confirmée !
+        </h2>
+
+        <p class="text-muted mb-4">Votre réservation a été créée avec succès.</p>
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>N° de Réservation :</strong> #@id.ToString("D6")
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
+
+        <div class="details-container bg-light mb-4">
+            <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-hashtag"></i> Numéro de confirmation</span>
+                <span class="detail-value fw-bold">@id.ToString("D6")</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-envelope"></i> Email de confirmation</span>
+                <span class="detail-value small">Envoyé à votre adresse e-mail</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-calendar"></i> Statut</span>
+                <span class="detail-value">
+                    <span class="badge bg-success">Actif</span>
+                </span>
+            </div>
+        </div>
+
+        <p class="text-muted small mb-4">
+            <i class="fas fa-info-circle"></i><br>
+            Un e-mail de confirmation avec tous les détails de votre réservation a été envoyé à votre adresse e-mail.
+        </p>
+
+        <div class="d-grid gap-2">
+            <a href="/Cars/Index" class="btn btn-primary btn-lg">
+                <i class="fas fa-arrow-left"></i> Retour aux Véhicules
+            </a>
+            <a href="mailto:admin@azurecarrental.com" class="btn btn-outline-secondary">
+                <i class="fas fa-envelope"></i> Contacter le Support
+            </a>
+        </div>
+    </div>
+
+    <p class="text-muted mt-4 small">
+        Merci d'avoir choisi RentCar !
+    </p>
+</div>
+
+<style>
+    @@keyframes bounce {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .animate__bounce {
+        animation: bounce 1s ease-in-out infinite;
+    }
+</style>

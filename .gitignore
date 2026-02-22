@@ -1,0 +1,64 @@
+# Build results
+bin/
+obj/
+Debug/
+Release/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.sln.docstates
+*.user
+*.userosscache
+*.sln.iml
+.DS_Store
+
+# Rider
+.idea/
+*.sln.iml
+
+# User-specific files
+appsettings.Development.json
+appsettings.*.json
+
+# Secrets and environment variables
+.env
+.env.local
+.env.*.local
+user-secrets/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+# Local user configs
+launchSettings.json
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+*.bak
+
+# Node modules (if using any)
+node_modules/
+
+# Package lock files
+package-lock.json
+
+# Azure specific
+.Azure/
+
+# SSL certificates
+*.pfx
+*.cer
+*.crt
+
+# Database
+*.mdf
+*.ldf

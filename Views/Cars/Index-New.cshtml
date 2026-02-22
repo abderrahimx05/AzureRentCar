@@ -1,0 +1,204 @@
+@model List<AzureCarRental.Models.Car>
+
+@{
+    ViewData["Title"] = "Catalogue de Véhicules - Azure Car Rental";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+    }
+</style>
+
+<!-- ===== PAGE HEADER ===== -->
+<div
+    style="padding: 80px 20px 60px; text-align: center; background: linear-gradient(180deg, rgba(0, 102, 255, 0.15) 0%, rgba(0, 217, 255, 0.05) 100%);">
+    <div class="container-lg">
+        <h1
+            style="font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 900; margin-bottom: 15px; background: linear-gradient(135deg, #ffffff 0%, #00d9ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: fadeInDown 0.8s ease-out;">
+            Nos Véhicules Premium
+        </h1>
+        <p
+            style="font-size: 1.15rem; color: #b0b0b0; max-width: 700px; margin: 0 auto; animation: fadeInUp 0.8s ease-out 0.1s both;">
+            Explorez notre collection exclusive de véhicules de luxe sélectionnés pour vous
+        </p>
+    </div>
+</div>
+
+<!-- ===== STATS BAR ===== -->
+<div
+    style="padding: 40px 20px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
+    <div class="container-lg">
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center;">
+            <div style="animation: fadeInUp 0.8s ease-out;">
+                <div
+                    style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #00d9ff 0%, #0066ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    @Model.Count
+                </div>
+                <div style="color: #888; font-size: 0.95rem; margin-top: 8px;">Véhicules Total</div>
+            </div>
+            <div style="animation: fadeInUp 0.8s ease-out 0.1s both;">
+                <div
+                    style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #00ff88 0%, #00d9ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    @Model.Count(c => c.IsAvailable)
+                </div>
+                <div style="color: #888; font-size: 0.95rem; margin-top: 8px;">Disponibles</div>
+            </div>
+            <div style="animation: fadeInUp 0.8s ease-out 0.2s both;">
+                <div
+                    style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    ✓
+                </div>
+                <div style="color: #888; font-size: 0.95rem; margin-top: 8px;">Support 24/7</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== CARS GRID ===== -->
+<section style="padding: 80px 20px;">
+    <div class="container-lg">
+        @if (Model == null || Model.Count == 0)
+        {
+            <div style="text-align: center; padding: 80px 20px;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <h2 style="font-size: 1.8rem; color: #fff; margin-bottom: 10px;">Aucun véhicule disponible</h2>
+                <p style="color: #888; font-size: 1.05rem;">Revenez bientôt pour découvrir nos nouveautés</p>
+            </div>
+        }
+        else
+        {
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px;">
+                @foreach (var car in Model)
+                {
+                    <div class="car-card" style="animation: fadeInUp 0.6s ease-out; animation-fill-mode: both;"
+                         data-index="@Model.IndexOf(car)">
+                        <!-- CAR IMAGE -->
+                        <div
+                            style="position: relative; overflow: hidden; border-radius: 16px 16px 0 0; height: 240px; background: linear-gradient(135deg, rgba(0, 102, 255, 0.2) 0%, rgba(0, 217, 255, 0.2) 100%);">
+                            @if (!string.IsNullOrEmpty(car.ImageUrl))
+                            {
+                                <img src="@car.ImageUrl" alt="@car.Brand @car.Model"
+                                     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);"
+                                     class="car-image" />
+                            }
+                            else
+                            {
+                                <div
+                                    style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: rgba(0, 217, 255, 0.3);">
+                                    <i class="fas fa-car"></i>
+                                </div>
+                            }
+
+                            <!-- OVERLAY GRADIENT -->
+                            <div
+                                style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(20, 20, 35, 0.8) 100%); pointer-events: none;">
+                            </div>
+
+                            <!-- AVAILABILITY BADGE -->
+                            @if (car.IsAvailable)
+                            {
+                                <div
+                                    style="position: absolute; top: 15px; right: 15px; background: linear-gradient(135deg, #00ff88 0%, #00d9ff 100%); color: #000; padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);">
+                                    ✓ Disponible
+                                </div>
+                            }
+                            else
+                            {
+                                <div
+                                    style="position: absolute; top: 15px; right: 15px; background: rgba(255, 100, 100, 0.8); color: #fff; padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 0.85rem;">
+                                    Indisponible
+                                </div>
+                            }
+                        </div>
+
+                        <!-- CAR INFO -->
+                        <div
+                            style="padding: 25px; background: rgba(255, 255, 255, 0.02); border-left: 1px solid rgba(255, 255, 255, 0.1); border-right: 1px solid rgba(255, 255, 255, 0.1);">
+                            <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 5px;">
+                                @car.Brand <span style="color: #00d9ff;">@car.Model</span>
+                            </h3>
+                            <p style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">
+                                <i class="fas fa-calendar-alt"></i> @car.Year | <i class="fas fa-tag"></i> Category
+                            </p>
+
+                            <!-- SPECIFICATIONS -->
+                            <div
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                                <div>
+                                    <div style="color: #00d9ff; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px;">PRIX /
+                                        JOUR</div>
+                                        <div style="font-size: 1.5rem; font-weight: 900; color: #fff;">
+                                            €@car.DailyRate.ToString("F2")</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div style="color: #00d9ff; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px;">STATUT
+                                            </div>
+                                            <div
+                                                style="font-size: 1.1rem; font-weight: 800; color: @(car.IsAvailable ? "#00ff88" : "#ff6b9d");">
+                                                @(car.IsAvailable ? "Disponible" : "Indisponible")
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- BUTTONS -->
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                        <a href="/Cars/Details/@car.Id" class="btn-premium btn-outline-light-premium"
+                                               style="text-align: center; padding: 11px 16px; font-size: 0.9rem;">
+                                            <i class="fas fa-eye"></i> Détails
+                                        </a>
+                                        @if (car.IsAvailable)
+                                        {
+                                            <a href="/Cars/Reserve/@car.Id" class="btn-premium btn-primary-gradient"
+                                                   style="text-align: center; padding: 11px 16px; font-size: 0.9rem;">
+                                                <i class="fas fa-check-circle"></i> Réserver
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <button disabled class="btn-premium"
+                                                    style="text-align: center; padding: 11px 16px; font-size: 0.9rem; opacity: 0.5; cursor: not-allowed; background: rgba(100, 100, 100, 0.3); border: 1px solid rgba(100, 100, 100, 0.5); color: #888;">
+                                                <i class="fas fa-lock"></i> Réserver
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // ===== INTERSECTION OBSERVER ANIMATION =====
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            const card = entry.target;
+                            const index = parseInt(card.dataset.index);
+                            card.style.animationDelay = (index * 0.08) + 's';
+                            card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.car-card').forEach((card) => {
+                    observer.observe(card);
+                });
+
+                // ===== IMAGE HOVER EFFECT =====
+                document.querySelectorAll('.car-image').forEach((img) => {
+                    img.addEventListener('mouseenter', function () {
+                        this.style.transform = 'scale(1.1)';
+                    });
+                    img.addEventListener('mouseleave', function () {
+                        this.style.transform = 'scale(1)';
+                    });
+                });
+            });
+        </script>

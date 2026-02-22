@@ -1,0 +1,534 @@
+@{
+    ViewData["Title"] = "RentCar - Location de voitures premium";
+}
+
+<style>
+    :root {
+        --primary: #0f172a;
+        --secondary: #1a1a2e;
+        --accent: #2563eb;
+        --accent-light: #3b82f6;
+        --success: #10b981;
+        --danger: #ef4444;
+        --bg-white: #ffffff;
+        --bg-light: #f9fafb;
+        --bg-gray: #f3f4f6;
+        --text-dark: #111827;
+        --text-primary: #374151;
+        --text-secondary: #6b7280;
+        --border-color: #e5e7eb;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        background: var(--bg-white);
+        color: var(--text-primary);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .hero-premium {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #111827 100%);
+        padding: 100px 30px;
+        margin-top: -15px;
+    }
+
+    .hero-premium::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(79, 70, 229, 0.08) 0%, transparent 50%);
+        animation: gradientShift 15s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    @@keyframes gradientShift {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+    }
+
+    .hero-content-premium {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-title-premium {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 900;
+        letter-spacing: -2px;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+        text-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle-premium {
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 3rem;
+        font-weight: 400;
+        line-height: 1.8;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3rem;
+    }
+
+    .btn-premium {
+        padding: 16px 44px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary-premium {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+        box-shadow: 0 15px 40px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-primary-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 50px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-secondary-premium {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+    .btn-secondary-premium:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-3px);
+    }
+
+    .trust-section {
+        display: flex;
+        gap: 3rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 4rem;
+        padding-top: 3rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .trust-item {
+        text-align: center;
+        animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    .trust-number {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #2563eb;
+        line-height: 1;
+    }
+
+    .trust-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-top: 0.5rem;
+    }
+
+    .features-premium {
+        background: var(--bg-white);
+        padding: 120px 30px;
+        position: relative;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .section-title {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 900;
+        color: var(--text-dark);
+        margin-bottom: 1.5rem;
+        letter-spacing: -1px;
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+
+    .feature-card-premium {
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 50px 40px;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: fadeInUp 0.8s ease-out both;
+    }
+
+    .feature-card-premium:hover {
+        transform: translateY(-12px);
+        border-color: var(--accent);
+        box-shadow: 0 30px 60px rgba(37, 99, 235, 0.12);
+    }
+
+    .feature-icon {
+        font-size: 3.5rem;
+        margin-bottom: 2rem;
+        display: inline-block;
+    }
+
+    .feature-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+    }
+
+    .feature-text {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.8;
+    }
+
+    .why-us-section {
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        padding: 120px 30px;
+    }
+
+    .why-us-container {
+        max-width: 1300px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+    }
+
+    .why-us-content h2 {
+        font-size: 3rem;
+        font-weight: 900;
+        color: var(--text-dark);
+        margin-bottom: 2rem;
+    }
+
+    .why-us-list {
+        list-style: none;
+    }
+
+    .why-us-item {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        animation: fadeInLeft 0.8s ease-out both;
+    }
+
+    .why-us-item::before {
+        content: '✓';
+        font-size: 1.5rem;
+        color: var(--accent);
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+
+    .why-us-item span {
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .why-us-visual {
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(79, 70, 229, 0.05) 100%);
+        border-radius: 20px;
+        padding: 60px;
+        text-align: center;
+        border: 2px dashed rgba(37, 99, 235, 0.2);
+    }
+
+    .why-us-visual-icon {
+        font-size: 5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .why-us-visual-text {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+    }
+
+    .cta-premium {
+        background: linear-gradient(135deg, #0f172a 0%, #1a2e5e 50%, #111827 100%);
+        padding: 100px 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-premium::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-title {
+        font-size: 3rem;
+        font-weight: 900;
+        color: white;
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .cta-text {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 2.5rem;
+        animation: fadeInUp 0.8s ease-out 0.1s both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .car-animation {
+        position: absolute;
+        bottom: 50px;
+        right: -200px;
+        font-size: 120px;
+        z-index: 2;
+        animation: carMove 8s infinite linear;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+    }
+
+    @@keyframes carMove {
+        0% {
+            right: -200px;
+            transform: scaleX(1);
+        }
+        50% {
+            transform: scaleX(1);
+        }
+        100% {
+            right: 100%;
+            transform: scaleX(-1);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .hero-premium { padding: 60px 20px; }
+        .hero-title-premium { font-size: 2.5rem; }
+        .hero-buttons { flex-direction: column; gap: 1rem; }
+        .btn-premium { width: 100%; }
+        .features-grid { gap: 2rem; }
+        .feature-card-premium { padding: 35px 25px; }
+        .why-us-container { grid-template-columns: 1fr; gap: 40px; }
+        .section-title { font-size: 2rem; }
+        .car-animation { font-size: 80px; bottom: 20px; }
+    }
+</style>
+
+<section class="hero-premium">
+    <div class="car-animation">🚗</div>
+    <div class="hero-content-premium">
+        <h1 class="hero-title-premium">Votre liberté sur 4 roues</h1>
+        <p class="hero-subtitle-premium">
+            Découvrez la location de voitures premium. Réservez en 30 secondes, conduisez avec style.
+        </p>
+        
+        <div class="hero-buttons">
+            <a href="/Cars/Index" class="btn-premium btn-primary-premium">
+                ⚡ Réserver maintenant
+            </a>
+            <button class="btn-premium btn-secondary-premium" onclick="document.querySelector('.features-premium').scrollIntoView({behavior: 'smooth'});">
+                En savoir plus
+            </button>
+        </div>
+
+        <div class="trust-section">
+            <div class="trust-item">
+                <div class="trust-number">200+</div>
+                <div class="trust-label">Voitures disponibles</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-number">5K+</div>
+                <div class="trust-label">Clients satisfaits</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-number">24/7</div>
+                <div class="trust-label">Support premium</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features-premium">
+    <div class="section-header">
+        <h2 class="section-title">Pourquoi RentCar ?</h2>
+        <p class="section-subtitle">L'expérience de location réinventée pour les voyageurs modernes</p>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card-premium" style="animation-delay: 0.1s;">
+            <div class="feature-icon">🚗</div>
+            <h3 class="feature-title">Flotte Premium</h3>
+            <p class="feature-text">Des voitures modernes, bien entretenues et sélectionnées pour le confort.</p>
+        </div>
+
+        <div class="feature-card-premium" style="animation-delay: 0.2s;">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Ultra-Rapide</h3>
+            <p class="feature-text">Réservez en moins de 30 secondes. Processus simple et transparent.</p>
+        </div>
+
+        <div class="feature-card-premium" style="animation-delay: 0.3s;">
+            <div class="feature-icon">💰</div>
+            <h3 class="feature-title">Tarifs Justes</h3>
+            <p class="feature-text">Prix transparents sans frais cachés. Meilleur rapport qualité-prix.</p>
+        </div>
+
+        <div class="feature-card-premium" style="animation-delay: 0.4s;">
+            <div class="feature-icon">🛡️</div>
+            <h3 class="feature-title">Sécurité Max</h3>
+            <p class="feature-text">Assurance complète incluse. Tous les véhicules vérifiés et assurés.</p>
+        </div>
+
+        <div class="feature-card-premium" style="animation-delay: 0.5s;">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">Flexibilité</h3>
+            <p class="feature-text">Annulation gratuite jusqu'à 24h. Modification facile de vos dates.</p>
+        </div>
+
+        <div class="feature-card-premium" style="animation-delay: 0.6s;">
+            <div class="feature-icon">🌍</div>
+            <h3 class="feature-title">Partout</h3>
+            <p class="feature-text">Disponible dans 50 villes. Récupération et retour flexibles.</p>
+        </div>
+    </div>
+</section>
+
+<section class="why-us-section">
+    <div class="why-us-container">
+        <div class="why-us-content">
+            <h2>Conçu pour les voyageurs</h2>
+            <ul class="why-us-list">
+                <li class="why-us-item" style="animation-delay: 0s;"><span>Réservation instantanée mobile ou web</span></li>
+                <li class="why-us-item" style="animation-delay: 0.1s;"><span>Support client 24/7 en français</span></li>
+                <li class="why-us-item" style="animation-delay: 0.2s;"><span>Assurance tous risques incluse</span></li>
+                <li class="why-us-item" style="animation-delay: 0.3s;"><span>Meilleur app 2025</span></li>
+                <li class="why-us-item" style="animation-delay: 0.4s;"><span>Remises VIP pour clients réguliers</span></li>
+            </ul>
+        </div>
+        <div class="why-us-visual">
+            <div class="why-us-visual-icon">🎉</div>
+            <div class="why-us-visual-text">Rejoignez 5000+ voyageurs heureux</div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-premium">
+    <div class="cta-content">
+        <h2 class="cta-title">Prêt pour l'aventure ?</h2>
+        <p class="cta-text">Découvrez comment 5000+ voyageurs nous font confiance.</p>
+        <a href="/Cars/Index" class="btn-premium btn-primary-premium">
+            Commencer maintenant
+        </a>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('scroll', function() {
+        const scrolled = window.scrollY;
+        const hero = document.querySelector('.hero-premium');
+        if (hero) {
+            hero.style.backgroundPosition = '0 ' + (scrolled * 0.3) + 'px';
+        }
+    });
+
+    const observerOptions = { threshold: 0.1, rootMargin: '0px' };
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card-premium, .why-us-item').forEach(el => {
+        observer.observe(el);
+    });
+</script>

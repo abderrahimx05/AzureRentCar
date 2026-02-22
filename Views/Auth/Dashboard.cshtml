@@ -1,0 +1,113 @@
+@model List<Reservation>
+@{
+    ViewData["Title"] = "Tableau de bord";
+    var userName = Context.Session.GetString("UserName");
+}
+
+<div class="page-header" style="animation: slideInDown 0.6s ease-out;">
+    <h1><i class="fas fa-tachometer-alt"></i> Mon Tableau de Bord</h1>
+    <p>Bienvenue, @userName !</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-3" style="animation: fadeInUp 0.8s ease-out 0.1s both;">
+        <div class="card text-center card-hover">
+            <div class="card-body">
+                <i class="fas fa-car"
+                   style="font-size: 2.5rem; color: #0d6efd; margin-bottom: 1rem; display: block;"></i>
+                <h5 class="card-title">Parcourir les véhicules</h5>
+                <p class="card-text">Consultez tous les véhicules disponibles à la location</p>
+                <a href="/Cars/Index" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Parcourir
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3" style="animation: fadeInUp 0.8s ease-out 0.2s both;">
+        <div class="card text-center card-hover">
+            <div class="card-body">
+                <i class="fas fa-calendar-check"
+                   style="font-size: 2.5rem; color: #198754; margin-bottom: 1rem; display: block;"></i>
+                <h5 class="card-title">Mes Réservations</h5>
+                <p class="card-text">@(Model.Count) réservation(s) active(s)</p>
+                <a href="#reservations-section" class="btn btn-success">
+                    <i class="fas fa-list"></i> Voir
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3" style="animation: fadeInUp 0.8s ease-out 0.3s both;">
+        <div class="card text-center card-hover">
+            <div class="card-body">
+                <i class="fas fa-user"
+                   style="font-size: 2.5rem; color: #6c757d; margin-bottom: 1rem; display: block;"></i>
+                <h5 class="card-title">Mon Profil</h5>
+                <p class="card-text">Gérez les paramètres de votre compte</p>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-cog"></i> Paramètres
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="reservations-section" style="animation: fadeInUp 1s ease-out 0.4s both;">
+    <h3 class="mb-4"><i class="fas fa-list"></i> Vos Réservations</h3>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> Aucune réservation pour le moment. Commencez par consulter nos véhicules !
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="fas fa-id-badge"></i> N° Réservation</th>
+                        <th><i class="fas fa-car"></i> Véhicule</th>
+                        <th><i class="fas fa-calendar-alt"></i> Date de début</th>
+                        <th><i class="fas fa-calendar-alt"></i> Date de fin</th>
+                        <th><i class="fas fa-money-bill"></i> Prix total</th>
+                        <th><i class="fas fa-clock"></i> Jours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var res in Model)
+                    {
+                        var days = (res.EndDate - res.StartDate).Days;
+                        <tr style="animation: slideInLeft 0.5s ease-out;">
+                            <td>#@res.Id</td>
+                            <td><strong>Voiture @res.CarId</strong></td>
+                            <td>@res.StartDate.ToString("dd/MM/yyyy")</td>
+                            <td>@res.EndDate.ToString("dd/MM/yyyy")</td>
+                            <td><span class="badge bg-success">@res.TotalPrice.ToString("0.00") €</span></td>
+                            <td><span class="badge bg-info">@days jour(s)</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<div class="details-container" style="animation: fadeInUp 1.2s ease-out 0.5s both;">
+    <h5 class="mb-3"><i class="fas fa-info-circle"></i> Guide de démarrage rapide</h5>
+    <ol>
+        <li><strong>Parcourir les véhicules :</strong> Consultez notre flotte et explorez les véhicules disponibles</li>
+        <li><strong>Sélectionner un véhicule :</strong> Cliquez sur une voiture pour voir les détails</li>
+        <li><strong>Faire une réservation :</strong> Choisissez vos dates et confirmez la réservation</li>
+        <li><strong>Recevoir la confirmation :</strong> Obtenez une confirmation par email de votre réservation</li>
+        <li><strong>Profiter :</strong> Récupérez votre location et profitez de votre trajet !</li>
+    </ol>
+</div>
+
+<div class="text-center mt-4">
+    <a href="/Auth/Logout" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Déconnexion
+    </a>
+</div>

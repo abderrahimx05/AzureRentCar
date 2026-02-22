@@ -1,0 +1,694 @@
+@{
+    ViewData["Title"] = "Location de Voitures Premium - RentCar";
+}
+
+<style>
+    /* ===== RESET & BASE ===== */
+    :root {
+        --primary: #0f172a;
+        --primary-light: #1e293b;
+        --accent: #3b82f6;
+        --accent-light: #60a5fa;
+        --accent-dark: #1e40af;
+        --success: #10b981;
+        --bg-light: #f8fafc;
+        --bg-white: #ffffff;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-light: #94a3b8;
+        --border: #e2e8f0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+        background: var(--bg-white);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* ===== HERO SECTION 3D ===== */
+    .hero-3d {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        min-height: 600px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        perspective: 1000px;
+        margin-top: -15px;
+    }
+
+    .hero-3d::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background:
+            radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+        animation: floatBg 20s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    @@keyframes floatBg {
+
+        0%,
+        100% {
+            transform: translate(0, 0);
+        }
+
+        50% {
+            transform: translate(50px, -50px);
+        }
+    }
+
+    .hero-3d::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        right: -200px;
+        top: -100px;
+        animation: rotate3d 30s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    @@keyframes rotate3d {
+        0% {
+            transform: rotateX(0) rotateY(0) rotateZ(0);
+        }
+
+        100% {
+            transform: rotateX(360deg) rotateY(360deg) rotateZ(180deg);
+        }
+    }
+
+    .hero-content-3d {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        max-width: 800px;
+        padding: 60px 30px;
+        animation: slideInDown 1s ease-out;
+        transform-style: preserve-3d;
+    }
+
+    @@keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-50px) rotateX(20deg);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+    }
+
+    .hero-title-3d {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        font-weight: 900;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        letter-spacing: -1px;
+        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: titlePulse 2s ease-in-out infinite;
+    }
+
+    @@keyframes titlePulse {
+
+        0%,
+        100% {
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        50% {
+            text-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .hero-subtitle-3d {
+        font-size: clamp(1rem, 3vw, 1.5rem);
+        color: rgba(255, 255, 255, 0.95);
+        margin-bottom: 3rem;
+        font-weight: 400;
+        line-height: 1.8;
+        animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    .cta-buttons-3d {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease-out 0.4s both;
+    }
+
+    .btn-primary-3d {
+        display: inline-block;
+        padding: 16px 40px;
+        background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary-3d::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3);
+        transition: left 0.5s ease;
+        z-index: 1;
+    }
+
+    .btn-primary-3d:hover::before {
+        left: 100%;
+    }
+
+    .btn-primary-3d:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+    }
+
+    .btn-secondary-3d {
+        display: inline-block;
+        padding: 16px 40px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+    }
+
+    .btn-secondary-3d:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.6);
+        transform: translateY(-3px);
+    }
+
+    /* ===== STATS SECTION - HIGHLY VISIBLE ===== */
+    .stats-section {
+        background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%);
+        padding: 80px 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><path d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/></g></g></svg>');
+        pointer-events: none;
+        animation: slideBg 20s linear infinite;
+    }
+
+    @@keyframes slideBg {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(60px);
+        }
+    }
+
+    .stats-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 50px;
+    }
+
+    .stat-card {
+        text-align: center;
+        animation: bounceIn 0.8s ease-out both;
+        color: #ffffff;
+    }
+
+    .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    @@keyframes bounceIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .stat-number {
+        font-size: 4rem;
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 10px;
+        text-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        opacity: 0.9;
+        letter-spacing: 1px;
+    }
+
+    .stats-description {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 1.2rem;
+        font-weight: 500;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* ===== FEATURES SECTION ===== */
+    .features-section {
+        background: var(--bg-light);
+        padding: 120px 30px;
+    }
+
+    .features-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 900;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .section-subtitle {
+        font-size: 1.15rem;
+        text-align: center;
+        color: var(--text-secondary);
+        margin-bottom: 60px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        animation: fadeInUp 1s ease-out 0.1s both;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+    }
+
+    .feature-card-3d {
+        background: var(--bg-white);
+        border-radius: 16px;
+        padding: 50px 35px;
+        border: 1px solid var(--border);
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        animation: fadeInUp 0.8s ease-out both;
+        transform-origin: center;
+    }
+
+    .feature-card-3d:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    .feature-card-3d:nth-child(2) {
+        animation-delay: 0.35s;
+    }
+
+    .feature-card-3d:nth-child(3) {
+        animation-delay: 0.5s;
+    }
+
+    .feature-card-3d:hover {
+        transform: translateY(-15px) rotateX(5deg);
+        box-shadow: 0 20px 50px rgba(59, 130, 246, 0.15);
+        border-color: var(--accent-light);
+    }
+
+    .feature-icon-3d {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+        display: inline-block;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .feature-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .feature-description {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.8;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        padding: 100px 30px;
+        text-align: center;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 2;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .cta-title {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        animation: slideInUp 0.8s ease-out;
+    }
+
+    .cta-text {
+        font-size: 1.15rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.95;
+        animation: slideInUp 0.8s ease-out 0.1s both;
+    }
+
+    @@keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @@media (max-width: 768px) {
+        .hero-3d {
+            height: auto;
+            min-height: 500px;
+        }
+
+        .hero-content-3d {
+            padding: 40px 20px;
+        }
+
+        .hero-title-3d {
+            font-size: 2rem;
+        }
+
+        .cta-buttons-3d {
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .btn-primary-3d,
+        .btn-secondary-3d {
+            width: 100%;
+        }
+
+        .stats-section {
+            padding: 60px 20px;
+        }
+
+        .stats-grid {
+            gap: 30px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+        }
+
+        .features-section {
+            padding: 80px 20px;
+        }
+
+        .features-grid {
+            gap: 25px;
+        }
+
+        .feature-card-3d {
+            padding: 35px 25px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .hero-3d {
+            min-height: 400px;
+        }
+
+        .hero-title-3d {
+            font-size: 1.5rem;
+        }
+
+        .hero-subtitle-3d {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<!-- ===== HERO SECTION 3D ===== -->
+<section class="hero-3d">
+    <div class="hero-content-3d">
+        <h1 class="hero-title-3d">Location de voitures premium</h1>
+        <p class="hero-subtitle-3d">
+            Découvrez une expérience de location unique avec nos véhicules modernes et nos services exceptionnels
+        </p>
+        <div class="cta-buttons-3d">
+            <a href="/Cars/Index" class="btn-primary-3d">
+                ⚡ Parcourir les véhicules
+            </a>
+            <button class="btn-secondary-3d"
+                    onclick="document.querySelector('.features-section').scrollIntoView({behavior: 'smooth'});">
+                ℹ️ En savoir plus
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ===== STATS SECTION ===== -->
+<section class="stats-section">
+    <div class="stats-content">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Véhicules disponibles</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5000+</div>
+                <div class="stat-label">Clients satisfaits</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support disponible</div>
+            </div>
+        </div>
+        <div class="stats-description">
+            Rejoignez notre communauté de clients satisfaits et bénéficiez des meilleures tarifs du marché
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURES SECTION ===== -->
+<section class="features-section">
+    <div class="features-container">
+        <h2 class="section-title">Pourquoi choisir RentCar ?</h2>
+        <p class="section-subtitle">
+            Une expérience complète et sans complications pour votre location
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card-3d">
+                <div class="feature-icon-3d">🚗</div>
+                <h3 class="feature-title">Large sélection</h3>
+                <p class="feature-description">
+                    Choisissez parmi plus de 200 véhicules variés, des berlines économiques aux SUV de luxe
+                </p>
+            </div>
+
+            <div class="feature-card-3d">
+                <div class="feature-icon-3d">💰</div>
+                <h3 class="feature-title">Prix transparents</h3>
+                <p class="feature-description">
+                    Aucun frais caché. Tarification claire et compétitive, réservation en quelques clics
+                </p>
+            </div>
+
+            <div class="feature-card-3d">
+                <div class="feature-icon-3d">🛡️</div>
+                <h3 class="feature-title">Sécurité garantie</h3>
+                <p class="feature-description">
+                    Tous nos véhicules sont assurés et régulièrement entretenus par des professionnels
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="cta-section">
+    <div class="cta-content">
+        <h2 class="cta-title">Prêt à commencer ?</h2>
+        <p class="cta-text">
+            Réservez votre véhicule dès maintenant et profitez de réductions exclusives
+        </p>
+        <a href="/Cars/Index" class="btn-primary-3d"
+               style="background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%); color: var(--accent);">
+            Réserver maintenant
+        </a>
+    </div>
+</section>
+
+<script>
+    // Parallax effect on scroll
+    document.addEventListener('scroll', function () {
+        const scrolled = window.scrollY;
+        const hero = document.querySelector('.hero-3d');
+        if (hero) {
+            hero.style.backgroundPosition = `0 ${scrolled * 0.5}px`;
+        }
+    });
+
+    // Add dynamic class on scroll for stats animation
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px'
+    };
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.stat-card, .feature-card-3d').forEach(el => {
+        observer.observe(el);
+    });
+</script>

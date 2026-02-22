@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+<div class="page-header" style="animation: slideInDown 0.6s ease-out;">
+    <h1 style="animation: zoomIn 0.8s ease-out;"><i class="fas fa-sign-in-alt"></i> Connexion</h1>
+    <p style="animation: fadeInUp 0.9s ease-out;">Connectez-vous à votre compte pour faire des réservations</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-5" style="animation: slideUp 0.8s ease-out;">
+        <div class="details-container">
+            @if (ViewData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                     style="animation: slideInDown 0.5s ease-out;">
+                    <i class="fas fa-exclamation-circle"></i> @ViewData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <!-- Azure AD Login Option -->
+            <div class="mb-4">
+                <a href="/Auth/LoginWithAzure" class="btn btn-outline-info btn-lg w-100"
+                       style="animation: slideInUp 0.6s ease-out;">
+                    <i class="fab fa-microsoft"></i> Se connecter avec Microsoft Azure
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center my-4" style="animation: fadeInUp 0.7s ease-out 0.1s both;">
+                <hr class="flex-grow-1">
+                <span class="px-3 text-muted">Ou utilisez votre compte</span>
+                <hr class="flex-grow-1">
+            </div>
+
+            <!-- Traditional Login Form -->
+            <form method="post" style="animation: slideUp 0.8s ease-out 0.2s both;">
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope"></i> Adresse e-mail
+                    </label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="votre@email.com"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock"></i> Mot de passe
+                    </label>
+                    <input type="password" class="form-control" id="password" name="password"
+                           placeholder="Votre mot de passe" required>
+                </div>
+
+                <div class="d-grid gap-2 mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-sign-in-alt"></i> Connexion
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-muted">Vous n'avez pas de compte ?
+                        <a href="/Auth/Register" class="text-primary fw-bold">S'inscrire ici</a>
+                    </p>
+                </div>
+            </form>
+
+            <!-- Service Info -->
+            <div class="alert alert-info mt-4" style="animation: fadeInUp 1s ease-out 0.3s both;">
+                <i class="fas fa-shield-alt"></i>
+                <strong>Connexion sécurisée :</strong> Nous supportons l'authentification traditionnelle et Microsoft
+                Azure pour une sécurité maximale.
+            </div>
+        </div>
+    </div>
+</div>
