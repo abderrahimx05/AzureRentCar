@@ -441,6 +441,20 @@ az webapp deployment source config-zip \
   --src-path publish.zip
 ```
 
+
+### GitHub Actions
+
+| Workflow | Déclencheur | Rôle |
+|---|---|---|
+| `ci.yml` | push sur `main`, pull requests | restore, build Release, vérif. format (informatif), audit des paquets vulnérables, artefact publié |
+| `deploy.yml` | CI réussie sur `main`, ou manuel | déploiement sur Azure App Service (connexion OIDC) |
+| `codeql.yml` | push/PR sur `main`, chaque lundi | analyse de sécurité C# |
+| `dependabot.yml` | hebdomadaire | mises à jour NuGet et des actions |
+
+Pour activer le déploiement, renseignez dans **Settings → Secrets and variables → Actions** :
+- variable `AZURE_WEBAPP_NAME` (sans elle, le déploiement est ignoré) ;
+- secrets `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` (app Entra ID avec identifiant fédéré pour ce dépôt, environnement `production`).
+
 ---
 
 ## 👥 Contribution
