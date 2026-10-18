@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Download artifact from CI run
         if: github.event_name == 'workflow_run'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: azurecarrental
           path: ./publish
@@ -42,11 +42,11 @@ jobs:
 
       - name: Checkout (manual run)
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup .NET (manual run)
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '9.0.x'
 
@@ -55,7 +55,7 @@ jobs:
         run: dotnet publish AzureCarRental.csproj --configuration Release --output ./publish
 
       - name: Azure login (OIDC)
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
